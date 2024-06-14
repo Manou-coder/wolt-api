@@ -10,9 +10,9 @@ app.get("/", (req, res) => {
   res.send("Hello from Wolt PDF Code Extractor");
 });
 
-app.post("/upload", upload.single("file"), async (req, res) => {
+app.post("/upload", upload.single("pdf"), async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded." });
+    return res.status(400).send("No file uploaded.");
   }
 
   const dataBuffer = req.file.buffer;
@@ -22,12 +22,12 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     const codeMatch = data.text.match(/CODE:\s(\w+)/);
     if (codeMatch) {
       const code = codeMatch[1];
-      res.status(200).json({ code: code });
+      res.json({ code: code });
     } else {
-      res.status(404).json({ error: "Code not found in PDF" });
+      res.status(404).send("Code not found in PDF");
     }
   } catch (error) {
-    res.status(500).json({ error: "Error parsing PDF" });
+    res.status(500).send("Error parsing PDF");
   }
 });
 
