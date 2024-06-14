@@ -1,19 +1,17 @@
 const express = require("express");
 const multer = require("multer");
 const pdfParse = require("pdf-parse");
-const fs = require("fs");
-const path = require("path");
 
 const app = express();
-const upload = multer({ dest: "uploads/" });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("pdf"), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
 
-  const filePath = path.join(__dirname, req.file.path);
-  const dataBuffer = fs.readFileSync(filePath);
+  const dataBuffer = req.file.buffer;
 
   try {
     const data = await pdfParse(dataBuffer);
@@ -26,8 +24,6 @@ app.post("/upload", upload.single("pdf"), async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("Error parsing PDF");
-  } finally {
-    fs.unlinkSync(filePath); // Supprimez le fichier temporaire après traitement
   }
 });
 
