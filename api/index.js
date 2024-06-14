@@ -7,10 +7,6 @@ const path = require("path");
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 app.post("/upload", upload.single("pdf"), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
