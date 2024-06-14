@@ -6,6 +6,10 @@ const app = express();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+app.get("/", (req, res) => {
+  res.send("Hello from Wolt PDF Code Extractor");
+});
+
 app.post("/upload", upload.single("pdf"), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
