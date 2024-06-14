@@ -36,5 +36,9 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+module.exports = app;
+
 // For testing:
 // curl -X POST -F "pdf=@/home/emmanuel/Downloads/Wolt gift card English 1.pdf" http://localhost:3000/upload
+
+// curl -X POST -F "pdf=@/home/emmanuel/Downloads/Wolt gift card English 1.pdf" https://wolt-ifp8m8vda-manoucoders-projects.vercel.app/upload
